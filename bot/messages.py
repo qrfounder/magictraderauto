@@ -6,18 +6,12 @@ import random
 from typing import Callable, Sequence
 
 PAIRS: tuple[str, ...] = (
-    "EUR/USD",
-    "GBP/USD",
-    "USD/JPY",
-    "AUD/USD",
-    "USD/CAD",
     "AUD/CAD",
+    "EUR/USD",
+    "EUR/BRL",
+    "AUD/JPY",
     "EUR/GBP",
-    "EUR/JPY",
-    "GBP/JPY",
-    "NZD/USD",
-    "USD/CHF",
-    "EUR/AUD",
+    "USD/CAD",
 )
 
 DIRECTIONS: tuple[str, ...] = ("UP", "DOWN")
@@ -43,13 +37,7 @@ def roll_result(*, probability: float = 0.5, random_value: float | None = None) 
 
 def build_signal_message(pair: str, direction: str) -> str:
     arrow = "🟩" if direction == "UP" else "🟥"
-    return (
-        f"🎮 GAME PREDICT\n"
-        f"💰 {pair} ; {direction} {arrow}\n\n"
-        f"🕐 ROUND TIME: 5MIN\n\n"
-        f"📲 Join the game: see channel CTA\n\n"
-        f"⚠️ {DISCLAIMER}"
-    )
+    return f"💰 {pair} ; {direction} {arrow}\n\n🕐EXPIRY TIME: 5MIN"
 
 
 def build_result_message(result: str) -> str:

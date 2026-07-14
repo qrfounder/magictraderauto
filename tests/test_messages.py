@@ -20,13 +20,23 @@ def test_pick_direction_up_or_down():
     assert pick_direction(rng=lambda seq: seq[1]) in {"UP", "DOWN"}
 
 
-def test_signal_message_is_labeled_game():
-    text = build_signal_message("EUR/USD", "UP")
-    assert "GAME" in text.upper() or "ENTERTAINMENT" in text.upper()
-    assert "EUR/USD" in text
-    assert "UP" in text
-    assert "5MIN" in text
-    assert "not real trading" in text.lower() or "entertainment" in text.lower()
+def test_signal_message_format():
+    text = build_signal_message("AUD/CAD", "UP")
+    assert text == "💰 AUD/CAD ; UP 🟩\n\n🕐EXPIRY TIME: 5MIN"
+    assert "broker" not in text.lower()
+    down = build_signal_message("EUR/USD", "DOWN")
+    assert down == "💰 EUR/USD ; DOWN 🟥\n\n🕐EXPIRY TIME: 5MIN"
+
+
+def test_pairs_are_configured_list():
+    assert PAIRS == (
+        "AUD/CAD",
+        "EUR/USD",
+        "EUR/BRL",
+        "AUD/JPY",
+        "EUR/GBP",
+        "USD/CAD",
+    )
 
 
 def test_result_message_correct_and_miss():
