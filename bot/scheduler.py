@@ -8,11 +8,9 @@ from datetime import datetime, timezone
 from bot.config import Settings
 from bot.messages import (
     build_cta_message,
-    build_result_message,
     build_signal_message,
     pick_direction,
     pick_pair,
-    roll_result,
 )
 from bot.telegram_client import TelegramClient
 
@@ -55,16 +53,7 @@ class GameScheduler:
         direction = pick_direction()
         signal = build_signal_message(pair, direction)
         await self.telegram.send_message(self.settings.channel_id, signal)
-        logger.info("Posted game signal %s %s at %s", pair, direction, datetime.now(timezone.utc))
-
-        await asyncio.sleep(self.settings.result_delay_seconds)
-
-        result = roll_result(probability=self.settings.correct_probability)
-        await self.telegram.send_message(
-            self.settings.channel_id,
-            build_result_message(result),
-        )
-        logger.info("Posted game result %s", result)
+        logger.info("Posted signal %s %s at %s", pair, direction, datetime.now(timezone.utc))
 
     async def _cta_loop(self) -> None:
         interval = self.settings.cta_interval_minutes * 60
