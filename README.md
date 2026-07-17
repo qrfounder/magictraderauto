@@ -27,7 +27,7 @@ python -m bot.main
 | --- | --- |
 | `BOT_TOKEN` | your regenerated BotFather token |
 | `CHANNEL_ID` | `-1001948808705` |
-| `GAME_CTA_URL` | `https://t.me/magicroomofficial` |
+| `GAME_CTA_URL` | `https://bit.ly/Saferegister` |
 | `MIN_SIGNAL_MINUTES` | `5` |
 | `MAX_SIGNAL_MINUTES` | `15` |
 | `RESULT_DELAY_SECONDS` | `60` |
