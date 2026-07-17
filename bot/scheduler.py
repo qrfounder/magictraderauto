@@ -63,8 +63,9 @@ class GameScheduler:
         logger.info("Posted Template 1 (signal) %s %s at %s", pair, direction, datetime.now(timezone.utc))
 
         # 1 minute later — Template 2 — result (WIN / LOSS picture)
+        # WIN_PERCENT in bot/templates.py controls how often each picture shows.
         await asyncio.sleep(self.settings.result_delay_seconds)
-        result = roll_result(probability=self.settings.correct_probability)
+        result = roll_result(probability=templates.WIN_PERCENT / 100)
         if result == "CORRECT":
             image, caption = templates.RESULT_WIN_IMAGE, templates.RESULT_WIN_CAPTION
         else:

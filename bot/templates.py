@@ -68,6 +68,13 @@ RESULT_LOSS_IMAGE = "bot/assets/loss.png"
 RESULT_WIN_CAPTION = ""
 RESULT_LOSS_CAPTION = ""
 
+# ---- FREQUENCY (edit this) ----------------------------------
+# How often the WIN picture shows vs the LOSS picture.
+# Set WIN_PERCENT to any number from 0 to 100. LOSS gets the rest.
+# Examples: 80 -> WIN 80% of the time, LOSS 20%.
+#           50 -> equal.  100 -> always WIN.  0 -> always LOSS.
+WIN_PERCENT = 80
+
 
 # ============================================================
 #  TEMPLATE 3 — CTA reminder
