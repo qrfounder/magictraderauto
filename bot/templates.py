@@ -92,7 +92,7 @@ CTA_TEMPLATE = (
     "We continue with operations ✅\n\n"
     "Keep the broker open!!\n\n"
     "For those who haven't joined yet 👇🏻\n\n"
-    "📊 create your account here:\nhttps://bit.ly/Saferegister"
+    "📊 create your account here and get 10,000$ FREE Demo:\nhttps://bit.ly/Saferegister"
 )
 
 
