@@ -54,6 +54,13 @@ ARROW_DOWN = "🟥"
 # ============================================================
 SIGNAL_TEMPLATE = "💰 {pair} ; {direction} {arrow}\n\n🕐EXPIRY TIME: 5MIN"
 
+# ---- HOW MANY SIGNALS PER ROUND (edit this) ----------------
+# The bot posts this many signals (Template 1), then the SAME
+# number of results (Template 2). Each result is a WIN image
+# WIN_PERCENT% of the time (see Template 2), otherwise a LOSS image.
+# Example: 2 -> 2 signals, then 2 results.
+SIGNALS_PER_ROUND = 2
+
 
 # ============================================================
 #  TEMPLATE 2 — Result (WIN / LOSS)

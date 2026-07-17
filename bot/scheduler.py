@@ -54,28 +54,36 @@ class GameScheduler:
                 await asyncio.sleep(remaining)
 
     async def _run_cycle(self) -> None:
-        # Template 1 — signal / predict round
-        pair = pick_pair()
-        direction = pick_direction()
-        await self.telegram.send_message(
-            self.settings.channel_id, build_signal_message(pair, direction)
-        )
-        logger.info("Posted Template 1 (signal) %s %s at %s", pair, direction, datetime.now(timezone.utc))
+        # How many signals this round (and the same number of results).
+        count = max(1, int(templates.SIGNALS_PER_ROUND))
 
-        # 1 minute later — Template 2 — result (WIN / LOSS picture)
-        # WIN_PERCENT in bot/templates.py controls how often each picture shows.
+        # Template 1 — post `count` signals
+        for _ in range(count):
+            pair = pick_pair()
+            direction = pick_direction()
+            await self.telegram.send_message(
+                self.settings.channel_id, build_signal_message(pair, direction)
+            )
+            logger.info(
+                "Posted Template 1 (signal) %s %s at %s",
+                pair, direction, datetime.now(timezone.utc),
+            )
+
+        # 1 minute later — Template 2 — post `count` results (WIN / LOSS picture)
+        # WIN_PERCENT in bot/templates.py controls how often each result is a WIN.
         await asyncio.sleep(self.settings.result_delay_seconds)
-        result = roll_result(probability=templates.WIN_PERCENT / 100)
-        if result == "CORRECT":
-            image, caption = templates.RESULT_WIN_IMAGE, templates.RESULT_WIN_CAPTION
-        else:
-            image, caption = templates.RESULT_LOSS_IMAGE, templates.RESULT_LOSS_CAPTION
-        await self.telegram.send_photo(
-            self.settings.channel_id,
-            _resolve_asset(image),
-            caption=caption or None,
-        )
-        logger.info("Posted Template 2 (result) %s", result)
+        for _ in range(count):
+            result = roll_result(probability=templates.WIN_PERCENT / 100)
+            if result == "CORRECT":
+                image, caption = templates.RESULT_WIN_IMAGE, templates.RESULT_WIN_CAPTION
+            else:
+                image, caption = templates.RESULT_LOSS_IMAGE, templates.RESULT_LOSS_CAPTION
+            await self.telegram.send_photo(
+                self.settings.channel_id,
+                _resolve_asset(image),
+                caption=caption or None,
+            )
+            logger.info("Posted Template 2 (result) %s", result)
 
         # 1 minute later — Template 3 — game CTA reminder
         await asyncio.sleep(self.settings.result_delay_seconds)
