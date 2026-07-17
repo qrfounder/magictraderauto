@@ -1,22 +1,29 @@
-"""Message builders and fair game rolls for the entertainment channel bot."""
+"""Message builders and fair game rolls for the entertainment channel bot.
+
+The actual text/content that gets posted lives in ``bot/templates.py`` —
+edit that file to change any message. This module only fills in the
+placeholders and handles the random/fair-odds logic.
+"""
 
 from __future__ import annotations
 
 import random
 from typing import Callable, Sequence
 
-PAIRS: tuple[str, ...] = (
-    "AUD/CAD",
-    "EUR/USD",
-    "EUR/BRL",
-    "AUD/JPY",
-    "EUR/GBP",
-    "USD/CAD",
-)
+from bot import templates
+from bot.templates import DIRECTIONS, DISCLAIMER, PAIRS
 
-DIRECTIONS: tuple[str, ...] = ("UP", "DOWN")
-
-DISCLAIMER = "Entertainment game only — not real trading or financial advice."
+__all__ = [
+    "PAIRS",
+    "DIRECTIONS",
+    "DISCLAIMER",
+    "pick_pair",
+    "pick_direction",
+    "roll_result",
+    "build_signal_message",
+    "build_result_message",
+    "build_cta_message",
+]
 
 
 def pick_pair(rng: Callable[[Sequence[str]], str] | None = None) -> str:
@@ -36,24 +43,14 @@ def roll_result(*, probability: float = 0.5, random_value: float | None = None) 
 
 
 def build_signal_message(pair: str, direction: str) -> str:
-    arrow = "🟩" if direction == "UP" else "🟥"
-    return f"💰 {pair} ; {direction} {arrow}\n\n🕐EXPIRY TIME: 5MIN"
+    arrow = templates.ARROW_UP if direction == "UP" else templates.ARROW_DOWN
+    return templates.SIGNAL_TEMPLATE.format(pair=pair, direction=direction, arrow=arrow)
 
 
 def build_result_message(result: str) -> str:
-    badge = "✅ CORRECT" if result == "CORRECT" else "❌ MISS"
-    return (
-        f"🏁 GAME RESULT: {badge}\n\n"
-        f"⚠️ {DISCLAIMER}"
-    )
+    badge = templates.BADGE_CORRECT if result == "CORRECT" else templates.BADGE_MISS
+    return templates.RESULT_TEMPLATE.format(badge=badge, disclaimer=DISCLAIMER)
 
 
 def build_cta_message(game_url: str) -> str:
-    return (
-        "🎮 Game round reminder\n\n"
-        "We continue with game operations ✅\n\n"
-        "Keep following the channel for the next predict round.\n\n"
-        "For players who want to join👇🏻\n\n"
-        f"📊 Play / follow here:\n{game_url}\n\n"
-        f"⚠️ {DISCLAIMER}"
-    )
+    return templates.CTA_TEMPLATE.format(game_url=game_url, disclaimer=DISCLAIMER)
