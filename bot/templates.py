@@ -79,13 +79,13 @@ WIN_PERCENT = 80
 # ============================================================
 #  TEMPLATE 3 — CTA reminder
 #  Posted 1 minute after Template 2.
-#  Placeholders: {game_url}
+#  The register link is fixed below — edit it here if it ever changes.
 # ============================================================
 CTA_TEMPLATE = (
     "We continue with operations ✅\n\n"
     "Keep the broker open!!\n\n"
     "For those who haven't joined yet 👇🏻\n\n"
-    "📊 create your account here:\n{game_url}"
+    "📊 create your account here:\nhttps://bit.ly/Saferegister"
 )
 
 

@@ -47,5 +47,5 @@ def test_roll_result_respects_probability():
 
 def test_cta_includes_url():
     text = build_cta_message("https://t.me/example")
-    assert "https://t.me/example" in text
+    assert "https://bit.ly/Saferegister" in text
     assert "broker" in text.lower()
