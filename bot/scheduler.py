@@ -69,15 +69,15 @@ class GameScheduler:
                 pair, direction, datetime.now(timezone.utc),
             )
 
-        # Template 1.5 — message after the signals, before the results
+        # 1 minute later — Template 1.5 — message after the signals, before the results
+        await asyncio.sleep(self.settings.result_delay_seconds)
         await self.telegram.send_message(
             self.settings.channel_id, templates.PRE_RESULT_MESSAGE
         )
         logger.info("Posted Template 1.5 (pre-result message)")
 
-        # 1 minute later — Template 2 — post `count` results (WIN / LOSS picture)
+        # Template 2 — post `count` results (WIN / LOSS picture)
         # WIN_PERCENT in bot/templates.py controls how often each result is a WIN.
-        await asyncio.sleep(self.settings.result_delay_seconds)
         for _ in range(count):
             result = roll_result(probability=templates.WIN_PERCENT / 100)
             if result == "CORRECT":
