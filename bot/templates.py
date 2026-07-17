@@ -48,7 +48,6 @@ ARROW_UP = "🟩"
 ARROW_DOWN = "🟥"
 
 # Disclaimer reused in several templates via {disclaimer}.
-DISCLAIMER = "Entertainment game only — not real trading or financial advice."
 
 
 # ============================================================
@@ -64,9 +63,9 @@ SIGNAL_TEMPLATE = "💰 {pair} ; {direction} {arrow}\n\n🕐EXPIRY TIME: 5MIN"
 #  Posted after a signal round.
 #  Placeholders: {badge}, {disclaimer}
 # ============================================================
-RESULT_TEMPLATE = "🏁 GAME RESULT: {badge}\n\n⚠️ {disclaimer}"
-BADGE_CORRECT = "✅ CORRECT"
-BADGE_MISS = "❌ MISS"
+RESULT_TEMPLATE = "RESULT: {badge}\n\n"
+BADGE_CORRECT = "✅ WIN"
+BADGE_MISS = "❌ LOSS"
 
 
 # ============================================================
@@ -75,12 +74,11 @@ BADGE_MISS = "❌ MISS"
 #  Placeholders: {game_url}, {disclaimer}
 # ============================================================
 CTA_TEMPLATE = (
-    "🎮 Game round reminder\n\n"
-    "We continue with game operations ✅\n\n"
-    "Keep following the channel for the next predict round.\n\n"
-    "For players who want to join👇🏻\n\n"
-    "📊 Play / follow here:\n{game_url}\n\n"
-    "⚠️ {disclaimer}"
+   
+    "We continue with  operations ✅\n\n"
+    "Keep the broker open!!.\n\n"
+    "For those who haven't join yet 👇🏻\n\n"
+    "📊 create your account here:\n{game_url}\n\n"
 )
 
 
