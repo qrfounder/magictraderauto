@@ -2,15 +2,16 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import random
 from datetime import datetime, timezone
 
 from bot.config import Settings
 from bot.messages import (
     build_cta_message,
+    build_result_message,
     build_signal_message,
     pick_direction,
     pick_pair,
+    roll_result,
 )
 from bot.telegram_client import TelegramClient
 
@@ -24,44 +25,42 @@ class GameScheduler:
 
     async def run_forever(self) -> None:
         logger.info("Starting entertainment game scheduler")
-        signal_task = asyncio.create_task(self._signal_loop(), name="signal-loop")
-        cta_task = asyncio.create_task(self._cta_loop(), name="cta-loop")
-        try:
-            await asyncio.gather(signal_task, cta_task)
-        finally:
-            signal_task.cancel()
-            cta_task.cancel()
-
-    async def _signal_loop(self) -> None:
+        cycle_seconds = self.settings.min_signal_minutes * 60
         while True:
+            started = asyncio.get_event_loop().time()
             try:
-                await self._post_round()
+                await self._run_cycle()
             except Exception:
-                logger.exception("Signal round failed; retrying after short pause")
+                logger.exception("Cycle failed; retrying after short pause")
                 await asyncio.sleep(30)
                 continue
 
-            wait_s = random.randint(
-                self.settings.min_signal_minutes * 60,
-                self.settings.max_signal_minutes * 60,
-            )
-            logger.info("Next game round in %s seconds", wait_s)
-            await asyncio.sleep(wait_s)
+            # Keep a fixed cadence: next Template 1 fires cycle_seconds after this one.
+            elapsed = asyncio.get_event_loop().time() - started
+            remaining = cycle_seconds - elapsed
+            if remaining > 0:
+                await asyncio.sleep(remaining)
 
-    async def _post_round(self) -> None:
+    async def _run_cycle(self) -> None:
+        # Template 1 — signal / predict round
         pair = pick_pair()
         direction = pick_direction()
-        signal = build_signal_message(pair, direction)
-        await self.telegram.send_message(self.settings.channel_id, signal)
-        logger.info("Posted signal %s %s at %s", pair, direction, datetime.now(timezone.utc))
+        await self.telegram.send_message(
+            self.settings.channel_id, build_signal_message(pair, direction)
+        )
+        logger.info("Posted Template 1 (signal) %s %s at %s", pair, direction, datetime.now(timezone.utc))
 
-    async def _cta_loop(self) -> None:
-        interval = self.settings.cta_interval_minutes * 60
-        while True:
-            await asyncio.sleep(interval)
-            try:
-                text = build_cta_message(self.settings.game_cta_url)
-                await self.telegram.send_message(self.settings.channel_id, text)
-                logger.info("Posted game CTA")
-            except Exception:
-                logger.exception("CTA post failed")
+        # 1 minute later — Template 2 — result
+        await asyncio.sleep(self.settings.result_delay_seconds)
+        result = roll_result(probability=self.settings.correct_probability)
+        await self.telegram.send_message(
+            self.settings.channel_id, build_result_message(result)
+        )
+        logger.info("Posted Template 2 (result) %s", result)
+
+        # 1 minute later — Template 3 — game CTA reminder
+        await asyncio.sleep(self.settings.result_delay_seconds)
+        await self.telegram.send_message(
+            self.settings.channel_id, build_cta_message(self.settings.game_cta_url)
+        )
+        logger.info("Posted Template 3 (CTA)")
