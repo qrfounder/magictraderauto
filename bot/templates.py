@@ -58,17 +58,15 @@ SIGNAL_TEMPLATE = "💰 {pair} ; {direction} {arrow}\n\n🕐EXPIRY TIME: 5MIN"
 # ============================================================
 #  TEMPLATE 2 — Result (WIN / LOSS)
 #  Posted 1 minute after Template 1.
-#  A WIN posts the picture below; a LOSS posts the text template.
-#  Placeholders (LOSS text only): {badge}
+#  Both WIN and LOSS post a picture. Paths are relative to the
+#  project root (or the container's /app). Swap the files at
+#  bot/assets/win.png and bot/assets/loss.png to change them.
 # ============================================================
-# Picture posted on a WIN. Path is relative to the project root
-# (or the container's /app). Swap the file at bot/assets/win.png to change it.
 RESULT_WIN_IMAGE = "bot/assets/win.png"
-# Optional caption sent with the WIN picture ("" = no caption).
+RESULT_LOSS_IMAGE = "bot/assets/loss.png"
+# Optional captions sent with each picture ("" = no caption).
 RESULT_WIN_CAPTION = ""
-RESULT_TEMPLATE = "🏁 RESULT: {badge}"
-BADGE_CORRECT = "✅ WIN"
-BADGE_MISS = "❌ LOSS"
+RESULT_LOSS_CAPTION = ""
 
 
 # ============================================================

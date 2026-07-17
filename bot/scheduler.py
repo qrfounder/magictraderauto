@@ -9,7 +9,6 @@ from bot import templates
 from bot.config import Settings
 from bot.messages import (
     build_cta_message,
-    build_result_message,
     build_signal_message,
     pick_direction,
     pick_pair,
@@ -63,19 +62,18 @@ class GameScheduler:
         )
         logger.info("Posted Template 1 (signal) %s %s at %s", pair, direction, datetime.now(timezone.utc))
 
-        # 1 minute later — Template 2 — result (WIN posts a picture, LOSS posts text)
+        # 1 minute later — Template 2 — result (WIN / LOSS picture)
         await asyncio.sleep(self.settings.result_delay_seconds)
         result = roll_result(probability=self.settings.correct_probability)
         if result == "CORRECT":
-            await self.telegram.send_photo(
-                self.settings.channel_id,
-                _resolve_asset(templates.RESULT_WIN_IMAGE),
-                caption=templates.RESULT_WIN_CAPTION or None,
-            )
+            image, caption = templates.RESULT_WIN_IMAGE, templates.RESULT_WIN_CAPTION
         else:
-            await self.telegram.send_message(
-                self.settings.channel_id, build_result_message(result)
-            )
+            image, caption = templates.RESULT_LOSS_IMAGE, templates.RESULT_LOSS_CAPTION
+        await self.telegram.send_photo(
+            self.settings.channel_id,
+            _resolve_asset(image),
+            caption=caption or None,
+        )
         logger.info("Posted Template 2 (result) %s", result)
 
         # 1 minute later — Template 3 — game CTA reminder

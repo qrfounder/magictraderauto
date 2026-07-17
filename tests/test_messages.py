@@ -1,7 +1,6 @@
 from bot.messages import (
     PAIRS,
     build_cta_message,
-    build_result_message,
     build_signal_message,
     pick_direction,
     pick_pair,
@@ -37,11 +36,6 @@ def test_pairs_are_configured_list():
         "EUR/GBP",
         "USD/CAD",
     )
-
-
-def test_result_message_correct_and_miss():
-    assert "WIN" in build_result_message("CORRECT")
-    assert "LOSS" in build_result_message("MISS")
 
 
 def test_roll_result_respects_probability():
