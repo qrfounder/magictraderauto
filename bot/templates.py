@@ -11,19 +11,18 @@ HOW TO EDIT
       {pair}       -> e.g. "EUR/USD"
       {direction}  -> "UP" or "DOWN"
       {arrow}      -> colored square based on direction
-      {badge}      -> the CORRECT/MISS badge
-      {game_url}   -> your channel/game link
-      {disclaimer} -> the shared disclaimer line (SHARED SETTINGS below)
+      {badge}      -> the WIN/LOSS badge
+      {game_url}   -> your channel/register link
 - Use \n for a line break.
 
-TEMPLATES IN THIS FILE
-----------------------
-  TEMPLATE 1 — Signal / predict round   (posted every 5–15 min)
-  TEMPLATE 2 — Game result              (CORRECT / MISS)
-  TEMPLATE 3 — Game CTA reminder        (posted every 30 min)
+POSTING ORDER (see bot/scheduler.py)
+------------------------------------
+  TEMPLATE 1 — Signal / predict round   (posted every 5 minutes)
+  TEMPLATE 2 — Result                    (1 min after Template 1)
+  TEMPLATE 3 — CTA reminder              (1 min after Template 2)
 
 To add a new template, copy a block below, give it the next number, and
-wire it up in bot/messages.py.
+wire it up in bot/messages.py + bot/scheduler.py.
 """
 
 # ============================================================
@@ -47,38 +46,35 @@ DIRECTIONS: tuple[str, ...] = ("UP", "DOWN")
 ARROW_UP = "🟩"
 ARROW_DOWN = "🟥"
 
-# Disclaimer reused in several templates via {disclaimer}.
-
 
 # ============================================================
 #  TEMPLATE 1 — Signal / predict round
-#  Posted every 5–15 minutes.
+#  Posted every 5 minutes.
 #  Placeholders: {pair}, {direction}, {arrow}
 # ============================================================
 SIGNAL_TEMPLATE = "💰 {pair} ; {direction} {arrow}\n\n🕐EXPIRY TIME: 5MIN"
 
 
 # ============================================================
-#  TEMPLATE 2 — Game result (CORRECT / MISS)
-#  Posted after a signal round.
-#  Placeholders: {badge}, {disclaimer}
+#  TEMPLATE 2 — Result (WIN / LOSS)
+#  Posted 1 minute after Template 1.
+#  Placeholders: {badge}
 # ============================================================
-RESULT_TEMPLATE = "RESULT: {badge}\n\n"
+RESULT_TEMPLATE = "🏁 RESULT: {badge}"
 BADGE_CORRECT = "✅ WIN"
 BADGE_MISS = "❌ LOSS"
 
 
 # ============================================================
-#  TEMPLATE 3 — Game CTA reminder
-#  Posted every 30 minutes.
-#  Placeholders: {game_url}, {disclaimer}
+#  TEMPLATE 3 — CTA reminder
+#  Posted 1 minute after Template 2.
+#  Placeholders: {game_url}
 # ============================================================
 CTA_TEMPLATE = (
-   
-    "We continue with  operations ✅\n\n"
-    "Keep the broker open!!.\n\n"
-    "For those who haven't join yet 👇🏻\n\n"
-    "📊 create your account here:\n{game_url}\n\n"
+    "We continue with operations ✅\n\n"
+    "Keep the broker open!!\n\n"
+    "For those who haven't joined yet 👇🏻\n\n"
+    "📊 create your account here:\n{game_url}"
 )
 
 

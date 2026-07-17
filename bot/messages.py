@@ -48,8 +48,8 @@ def build_signal_message(pair: str, direction: str) -> str:
 
 def build_result_message(result: str) -> str:
     badge = templates.BADGE_CORRECT if result == "CORRECT" else templates.BADGE_MISS
-    return templates.RESULT_TEMPLATE.format(badge=badge, disclaimer=DISCLAIMER)
+    return templates.RESULT_TEMPLATE.format(badge=badge)
 
 
 def build_cta_message(game_url: str) -> str:
-    return templates.CTA_TEMPLATE.format(game_url=game_url, disclaimer=DISCLAIMER)
+    return templates.CTA_TEMPLATE.format(game_url=game_url)

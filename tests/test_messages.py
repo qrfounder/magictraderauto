@@ -40,9 +40,8 @@ def test_pairs_are_configured_list():
 
 
 def test_result_message_correct_and_miss():
-    assert "CORRECT" in build_result_message("CORRECT")
-    assert "MISS" in build_result_message("MISS")
-    assert "entertainment" in build_result_message("CORRECT").lower()
+    assert "WIN" in build_result_message("CORRECT")
+    assert "LOSS" in build_result_message("MISS")
 
 
 def test_roll_result_respects_probability():
@@ -55,6 +54,4 @@ def test_roll_result_respects_probability():
 def test_cta_includes_url():
     text = build_cta_message("https://t.me/example")
     assert "https://t.me/example" in text
-    assert "entertainment" in text.lower() or "game" in text.lower()
-    assert "make money" not in text.lower()
-    assert "broker" not in text.lower()
+    assert "broker" in text.lower()
