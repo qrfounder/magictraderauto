@@ -11,12 +11,11 @@ import random
 from typing import Callable, Sequence
 
 from bot import templates
-from bot.templates import DIRECTIONS, DISCLAIMER, PAIRS
+from bot.templates import DIRECTIONS, PAIRS
 
 __all__ = [
     "PAIRS",
     "DIRECTIONS",
-    "DISCLAIMER",
     "pick_pair",
     "pick_direction",
     "roll_result",
