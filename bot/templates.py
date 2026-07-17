@@ -63,6 +63,12 @@ SIGNALS_PER_ROUND = 2
 
 
 # ============================================================
+#  TEMPLATE 1.5 — Message after the signals, before the results
+# ============================================================
+PRE_RESULT_MESSAGE = "Please close all trades now. 🔥🔥"
+
+
+# ============================================================
 #  TEMPLATE 2 — Result (WIN / LOSS)
 #  Posted 1 minute after Template 1.
 #  Both WIN and LOSS post a picture. Paths are relative to the
@@ -81,6 +87,12 @@ RESULT_LOSS_CAPTION = ""
 # Examples: 80 -> WIN 80% of the time, LOSS 20%.
 #           50 -> equal.  100 -> always WIN.  0 -> always LOSS.
 WIN_PERCENT = 80
+
+
+# ============================================================
+#  TEMPLATE 2.5 — Message after the results, before the CTA
+# ============================================================
+PRE_CTA_MESSAGE = "Let's gooo!! 💸💰"
 
 
 # ============================================================

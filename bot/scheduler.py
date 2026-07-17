@@ -69,6 +69,12 @@ class GameScheduler:
                 pair, direction, datetime.now(timezone.utc),
             )
 
+        # Template 1.5 — message after the signals, before the results
+        await self.telegram.send_message(
+            self.settings.channel_id, templates.PRE_RESULT_MESSAGE
+        )
+        logger.info("Posted Template 1.5 (pre-result message)")
+
         # 1 minute later — Template 2 — post `count` results (WIN / LOSS picture)
         # WIN_PERCENT in bot/templates.py controls how often each result is a WIN.
         await asyncio.sleep(self.settings.result_delay_seconds)
@@ -84,6 +90,12 @@ class GameScheduler:
                 caption=caption or None,
             )
             logger.info("Posted Template 2 (result) %s", result)
+
+        # Template 2.5 — message after the results, before the CTA
+        await self.telegram.send_message(
+            self.settings.channel_id, templates.PRE_CTA_MESSAGE
+        )
+        logger.info("Posted Template 2.5 (pre-CTA message)")
 
         # 1 minute later — Template 3 — game CTA reminder
         await asyncio.sleep(self.settings.result_delay_seconds)
