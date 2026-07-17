@@ -23,7 +23,7 @@ def load_settings() -> Settings:
 
     bot_token = os.getenv("BOT_TOKEN", "").strip()
     channel_id = os.getenv("CHANNEL_ID", "").strip()
-    game_cta_url = os.getenv("GAME_CTA_URL", "https://t.me/magicroomofficial").strip()
+    game_cta_url = os.getenv("GAME_CTA_URL", "https://bit.ly/Saferegister").strip()
 
     if not bot_token or bot_token.startswith("replace_"):
         raise SystemExit("Set BOT_TOKEN in environment or .env")
