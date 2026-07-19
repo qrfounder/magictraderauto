@@ -30,8 +30,8 @@ def load_settings() -> Settings:
     if not channel_id:
         raise SystemExit("Set CHANNEL_ID in environment or .env")
 
-    min_m = int(os.getenv("MIN_SIGNAL_MINUTES", "5"))
-    max_m = int(os.getenv("MAX_SIGNAL_MINUTES", "15"))
+    min_m = int(os.getenv("MIN_SIGNAL_MINUTES", "45"))
+    max_m = int(os.getenv("MAX_SIGNAL_MINUTES", "60"))
     if min_m < 1 or max_m < min_m:
         raise SystemExit("MIN_SIGNAL_MINUTES / MAX_SIGNAL_MINUTES are invalid")
 

@@ -1,8 +1,24 @@
 # Entertainment game channel bot
 
-Posts **labeled game predict rounds** to a Telegram channel on a random 5–15 minute schedule, then a result after 1 minute. Every 30 minutes it posts a game CTA.
+Posts **labeled game predict rounds** to a Telegram channel on a **premium UTC schedule**: selective signal rounds during London (07:00–11:00) and New York (13:00–17:00) windows, with market briefs, tips, trust recaps, and thinned demo CTAs between them.
 
-This is an **entertainment bot**, not real trading signals or financial advice. Results use transparent fair odds (default 50% CORRECT).
+This is an **entertainment bot**, not real trading signals or financial advice. Result images use configurable win odds (`WIN_PERCENT` in `bot/templates.py`).
+
+## Cadence (premium defaults)
+
+| Window (UTC) | Content |
+| --- | --- |
+| 06:50–07:10 | London session open (once/day) |
+| 07:00–11:00 | Signal rounds every 45–60 min (jittered) |
+| 11:00–13:00 | Market brief / tip / soft trust (max 2) |
+| 12:50–13:10 | New York session open (once/day) |
+| 13:00–17:00 | Signal rounds every 45–60 min (jittered) |
+| 17:00–17:20 | Session wrap (once/day) |
+| Elsewhere | Rare tip or market brief (max 2/night) |
+
+Hard demo CTA posts only on every **2nd** completed round and only if `CTA_INTERVAL_MINUTES` has elapsed since the last hard CTA.
+
+Edit copy in `bot/templates.py`. Restart the bot after changes.
 
 ## Local run
 
@@ -28,13 +44,13 @@ python -m bot.main
 | `BOT_TOKEN` | your regenerated BotFather token |
 | `CHANNEL_ID` | `-1001948808705` |
 | `GAME_CTA_URL` | `https://bit.ly/Saferegister` |
-| `MIN_SIGNAL_MINUTES` | `5` |
-| `MAX_SIGNAL_MINUTES` | `15` |
+| `MIN_SIGNAL_MINUTES` | `45` |
+| `MAX_SIGNAL_MINUTES` | `60` |
 | `RESULT_DELAY_SECONDS` | `60` |
 | `CTA_INTERVAL_MINUTES` | `30` |
 | `CORRECT_PROBABILITY` | `0.5` |
 
-6. Deploy / Start. Check logs for `Posted game signal`.
+6. Deploy / Start. Check logs for `Posted signal` / `Posted filler`.
 7. Confirm posts appear in **Magic Trader Signals**.
 8. Close your laptop — the VPS keeps running.
 
